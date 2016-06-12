@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install version="1.0" type="plugin" group="payment">
+    <name>os_redirect</name>
+    <title>EB Redirect</title>
+    <author>Tuan Pham Ngoc</author>
+    <creationDate>12-06-2016</creationDate>
+    <copyright>Copyright 2010 - 2016 Ossolution Team</copyright>
+    <license>http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU/GPL version 2</license>
+    <authorEmail>contact@joomdonation.com</authorEmail>
+    <authorUrl>www.joomdonation.com</authorUrl>
+    <version>2.7.0</version>
+    <description>Redirect base payment plugin (like PayPal) For Events Booking Extension</description>
+    <config>
+        <fields name="params">
+            <fieldset name="basic" addfieldpath="/administrator/components/com_eventbooking/elements">
+                <field name="mode" type="list" label="Payment Mode" description="Set to Test Mode Or Live Mode">
+                    <option value="0">Test Mode</option>
+                    <option value="1">Live Mode</option>
+                </field>
+                <!--
+                    <field name="merchant_id" type="text" size="40" label="Merchant ID" description="Enter your payment gateway Merchant ID" default=""></field>
+                    <field name="merchant_key" type="text" size="40" label="Merchant Key" description="Enter your payment gateway Merchant Key" default=""></field>
+                -->
+                <field name="payment_fee_amount" type="text" label="Payment Processing Fee ($)" description=""></field>
+                <field name="payment_fee_percent" type="text" label="Payment Processing Fee (%)" description=""></field>
+                <field name="ipn_log" type="list" label="Log IPN messages"
+                       description="This is only used for debug purpose when requested. Please set it to No unless requested by our support team"
+                       default="0">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    <files>
+        <filename>os_redirect.php</filename>
+        <folder>lib</folder>
+    </files>
+</install>
