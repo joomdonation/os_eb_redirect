@@ -36,7 +36,17 @@ else
 ```
 
 ## The processPayment method
+This method contains code to pass necessary data to the payment gateway for processing payment. Each payment gateway requires different set of parameters, so you will need to read the payment gateway manually to know which data needs to be passed to the payment gateway. Some notes:
+
+1. Use $this->setParameter method to define the data you want to pass to the payment gateway.
+2. You can access the registration information via $row object. For example, $row->first_name is billing first_name, $row->last_name... is billing last name
+3. The payment amount can be get via $data['amount'] variable
+4. The payment description (by default, it is EVENT_TITLE event registration) could be accessed via $data['item_name'] variable
+5. The currency of the payment (if need to be passed to the payment gateway) can be get from $data['currency'] variable
+6. Some payment gateways (such as PayPal) allows you to set the URL you want to receive notification after payment completed in the payment request. If it is applied for your payment gateway, then you can pass this URL to the payment gateway inside this method, too. The URL of the payment notification URL must has this format http://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_gateway&name=os_payment_plugin_name. For example, with PayPal payment plugin, the code is 
+  ```php
+  $this->setParameter('notify_url', $siteUrl . 'index.php?option=com_eventbooking&task=payment_confirm&payment_method=os_paypal');
+  ```
 
 ## The verifyPayment method
-
 ## The validate method
