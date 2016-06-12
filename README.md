@@ -17,11 +17,23 @@ Usually, a payment plugin will contains on XML file and one PHP file :
   * It provide basic payment plugin information (name, description, author, copyright....). For example https://github.com/joomdonation/os_eb_redirect/blob/master/os_redirect.xml#L3-L12
   * It defines the payment plugin parameters such as payment plugin mode, Merchant ID... These parameters will be setup by website administrator when he edit the payment plugin in Events Booking -> Payment Plugins section. See https://github.com/joomdonation/os_eb_redirect/blob/master/os_redirect.xml#L14-L33 to understand how it is defined
 
-2. The PHP file which handles the payment process, payment verification...
+2. The PHP file which handles the payment process, payment verification... This is actually a php class (the name of the class has this format os_plugin_name) and it extends RADPayment class.
 3. The payment plugin might need to have extra library (which is usually provided by the payment gateway for processing payment). If your payment plugin need a library like that, add it into a folder plugin_name in your payment plugin package and define it in the xml file using **folder** tag like this https://github.com/joomdonation/os_eb_redirect/blob/master/os_redirect.xml#L37
   
-
 ## The __construct method
+You don't have to write much code inside this method. Usually, you just need to call parent::__construct($params, $config); define the payment gateway URL based on the payment mode (which is Test Mode or Live Mode) setup by admin in the payment plugin parameters. For example, with PayPal Payment Plugin code:
+```php
+parent::__construct($params, $config);
+
+if ($this->mode)
+{
+	$this->url = 'https://www.paypal.com/cgi-bin/webscr';
+}
+else
+{
+	$this->url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+}
+```
 
 ## The processPayment method
 
