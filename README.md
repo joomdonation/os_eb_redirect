@@ -49,4 +49,33 @@ This method contains code to pass necessary data to the payment gateway for proc
   ```
 
 ## The verifyPayment method
-## The validate method
+
+This is the hardest part of develpping a redirect base payment plugin. For a redirect base payment plugin, after payment completed, the payment gateway will send a notification to your site (usually a POST request) to inform Events Booking about this payment. As mentioned before, the notification URL has this format http://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_gateway&name=os_payment_plugin_name. Some payment gateway allows passing this URL within processPayment method, some other payment gateway requires you to config this URL by change a setting on your merchant account inside the payemnt gateway website
+
+When the payment gateway sends notification to the above URL, the method verifyPayment in the payment plugin will be executed. This method will then need to verify the payment, if it is valid, update status of the registration record, sending emails...Below is typical code structure of that method:
+
+```php
+if ($this->validate())
+{
+	$id            = $this->notificationData['registrant_id_param'];
+	$transactionId = $this->notificationData['transaction_id_param'];
+
+	$row = JTable::getInstance('EventBooking', 'Registrant');
+
+	$row->load($id);
+
+	if (!$row->id)
+	{
+		return false;
+	}
+
+	if ($row->published)
+	{
+		return false;
+	}
+
+	$this->onPaymentSuccess($row, $transactionId);
+}
+```
+
+As you can see from the block of code above, it call validate method of the payment method to verify the payment. If it is valid, then you will need to get ID of the registration record, the transaction id, create registration record object..., call $this->onPaymentSuccess($row, $transactionId); method (which is defined on RADPayment class) to complete the process... 
