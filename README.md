@@ -8,7 +8,7 @@ With a redirect base payment plugin, registrants will be redirected to your paym
   4. A message such as "Please while we redirect you to the payment gateway for processing payment is displayed". Then after few seconds, registrant is redirected to payment gateway for processing payment
   5. After payment is completed at the payment gateway:
     * Customer is being redirected to registration complete page which display a thank you message and registration information
-    * The payment gateway notify Events Booking and your site about the payment. The notification (usually is a post request) is sent to the following URL : http://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_confirm&name=os_payment_plugin_name. The payment gateway then verify the payment, if it is valid, send notification email (to registrant and admin), update status of the registration record....
+    * The payment gateway notify Events Booking and your site about the payment. The notification (usually is a post request) is sent to the following URL : https://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_confirm&name=os_payment_plugin_name. The payment gateway then verify the payment, if it is valid, send notification email (to registrant and admin), update status of the registration record....
 
 ## Payment plugin structure
 Usually, a payment plugin will contains on XML file and one PHP file :
@@ -43,7 +43,7 @@ This method contains code to pass necessary data to the payment gateway for proc
 3. The payment amount can be get via **$data['amount']** variable
 4. The payment description (by default, it is EVENT_TITLE event registration) could be accessed via **$data['item_name']** variable
 5. The currency of the payment (if need to be passed to the payment gateway) can be get from **$data['currency']** variable
-6. Some payment gateways (such as PayPal) allows you to set the URL you want to receive notification after payment completed in the payment request. If it is applied for your payment gateway, then you can pass this URL to the payment gateway inside this method, too. The URL of the payment notification URL must has this format **http://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_confirm&name=os_payment_plugin_name**. For example, with PayPal payment plugin, the code is 
+6. Some payment gateways (such as PayPal) allows you to set the URL you want to receive notification after payment completed in the payment request. If it is applied for your payment gateway, then you can pass this URL to the payment gateway inside this method, too. The URL of the payment notification URL must has this format **https://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_confirm&name=os_payment_plugin_name**. For example, with PayPal payment plugin, the code is 
   ```php
   $this->setParameter('notify_url', $siteUrl . 'index.php?option=com_eventbooking&task=payment_confirm&payment_method=os_paypal');
   ```
@@ -51,7 +51,7 @@ This method contains code to pass necessary data to the payment gateway for proc
 
 ## The verifyPayment method
 
-This is the hardest part of develpping a redirect base payment plugin. For a redirect base payment plugin, after payment completed, the payment gateway will send a notification to your site (usually a POST request) to inform Events Booking about this payment. As mentioned before, the notification URL has this format http://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_gateway&name=os_payment_plugin_name. Some payment gateway allows passing this URL within processPayment method, some other payment gateway requires you to config this URL by change a setting on your merchant account inside the payemnt gateway website
+This is the hardest part of develpping a redirect base payment plugin. For a redirect base payment plugin, after payment completed, the payment gateway will send a notification to your site (usually a POST request) to inform Events Booking about this payment. As mentioned before, the notification URL has this format https://yoursitedomain.com/index.php?option=com_eventbooking&task=payment_confirm&name=os_payment_plugin_name. Some payment gateway allows passing this URL within processPayment method, some other payment gateway requires you to config this URL by change a setting on your merchant account inside the payemnt gateway website
 
 When the payment gateway sends notification to the above URL, the method **verifyPayment** in the payment plugin will be executed. This method will then need to verify the payment, if it is valid, update status of the registration record, sending emails...Below is typical code structure of that method:
 
